@@ -24,6 +24,8 @@ Terraform init  -> Plan -> Apply
 Init: Download files for this resource.
 .terraform.lock.hcl - locks provider & version. Can be moved with project to save versions of providers if it needed. Can be saved to the repo. Or ignored.
 
+<em>Terraform loads modules in the alphabetic order.</em>
+
 Plan: Actions that need to be done to achive the desired state.
 Parameter -out creates output file with accurate list of actions.
 
@@ -65,6 +67,8 @@ Picks var w/ the same name
 
 Variable type is option, also description can be added. There are 7 types of vars. Default = any.
 
+Variable interpolation to the sting use: ${var.varvalue}
+
 To pass vars it's possible to:
 
 1. Create variables.tf file. Add vars like:
@@ -75,4 +79,16 @@ To pass vars it's possible to:
         }
 
 Add to the main tf file keywoard "var.$VARNAME".
+
 If value will not have default value then it will be asked interactively.
+
+${path.module} - standart var that describes current TF module. Path where actual main.tf file stored.
+
+2. Apply vars in CLI:
+
+    terraform apply -var "filename=/tmp/filevar.txt" -var "content=contentvar"
+
+3. Also it's possible export to ENV TF_VAR_filename=/tmp/envvar" then run apply w/o these vars.
+
+
+
