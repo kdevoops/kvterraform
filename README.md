@@ -5,6 +5,8 @@ Terraform Part1
 
 terraform --version
 
+Terraform file: any name w/ .tf extension
+
     resource "local_file" "foo" {
       content  = "foo!"
       filename = "${path.module}/foo.bar"
@@ -19,8 +21,58 @@ file - resource
 
 3 steps of execution:
 Terraform init  -> Plan -> Apply
-Init: Download files for this resource
+Init: Download files for this resource.
+.terraform.lock.hcl - locks provider & version. Can be moved with project to save versions of providers if it needed. Can be saved to the repo. Or ignored.
+
 Plan: Actions that need to be done to achive the desired state.
+Parameter -out creates output file with accurate list of actions.
+
 Apply: Execute actions to achive the desired state.
 
-.terraform.lock.hcl - can be moved with project to save versions of providers if it needed.
+terraform.tfstate - file that contains info about resources that were created on Apply step. Don't edit it manually.
+
+
+terraform destroy - remote resources created by TF.
+
+During updates TF usually destroys resource even when change file permisions.
+
+
+terraform state list - get name of resource that managed now.
+
+terraform state show loca_file.foo - show resource particular resource info
+
+
+.terraform dir -dir that contains proveiders used (specific version that was downloaded during Init step)
+
+<br>
+<b>Variables</b>
+
+Declaration with default value:
+
+    variable "filename" {
+        default = "/tmp/file.txt"
+    }
+
+Variable call:
+
+Picks var w/ the same name
+
+    resource "local_file" "list" {
+      filename = var.filename
+      content = var.content
+      type = string
+    }
+
+Variable type is option, also description can be added. There are 7 types of vars. Default = any.
+
+To pass vars it's possible to:
+
+1. Create variables.tf file. Add vars like:
+
+        variable "filename" {
+            default = "/tmp/kvtest.txt"
+            type = string
+        }
+
+Add to the main tf file keywoard "var.$VARNAME".
+If value will not have default value then it will be asked interactively.
