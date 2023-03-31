@@ -1,9 +1,12 @@
-# terraform
+# Terraform
+
 Provisioning tool:
 Terraform Part1
 
 
 terraform --version
+
+(https://registry.terraform.io/providers)[List TF providers and other docs]
 
 Terraform file: any name w/ .tf extension
 
@@ -21,13 +24,14 @@ file - resource
 
 3 steps of execution:
 Terraform init  -> Plan -> Apply
+
 Init: Download files for this resource.
 .terraform.lock.hcl - locks provider & version. Can be moved with project to save versions of providers if it needed. Can be saved to the repo. Or ignored.
 
 <em>Terraform loads modules in the alphabetic order.</em>
 
-Plan: Actions that need to be done to achive the desired state.
-Parameter -out creates output file with accurate list of actions.
+Plan: List of actions that need to be done to achive the desired state.
+Arguments "-out" creates output file with accurate list of actions.
 
 Apply: Execute actions to achive the desired state.
 
@@ -71,12 +75,14 @@ Variable interpolation to the sting use: ${var.varvalue}
 
 To pass vars it's possible to:
 
-1. Create variables.tf file. Add vars like:
+Create variables.tf file. Add vars like:
 
         variable "filename" {
             default = "/tmp/kvtest.txt"
             type = string
         }
+
+This file for vars definitions (not values, except defaults). Not necessary, but recommended for big projects.
 
 Add to the main tf file keywoard "var.$VARNAME".
 
@@ -84,11 +90,23 @@ If value will not have default value then it will be asked interactively.
 
 ${path.module} - standart var that describes current TF module. Path where actual main.tf file stored.
 
-2. Apply vars in CLI:
+1. Apply vars in CLI:
 
     terraform apply -var "filename=/tmp/filevar.txt" -var "content=contentvar"
 
 3. Also it's possible export to ENV TF_VAR_filename=/tmp/envvar" then run apply w/o these vars.
 
+4. terraform.tfvars - file with vars values. Vars in config file have higher priority.
+It's also possible to store values in terrafor.tfvars.json - to store vars in JSON format.
 
+        {
+          "filename":"/tmp/jsonvar",
+          "content": "jsontext"
+        }
+
+Terraform saves last var's file that was used.
+
+Specify var's file with parameters: terraform apply -var-file=tf-var-file.tfvars
+
+<b>providers.tf</b> - contains info about providers. For example, it can copied from Azure's docs.
 
