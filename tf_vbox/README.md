@@ -1,0 +1,1 @@
+Adds Vbox VM with parameters from vars.
