@@ -6,7 +6,7 @@ Terraform Part1
 
 terraform --version
 
-(https://registry.terraform.io/providers)[List TF providers and other docs]
+<a href="https://registry.terraform.io/providers">List TF providers and other docs</a>
 
 Terraform file: any name w/ .tf extension
 
